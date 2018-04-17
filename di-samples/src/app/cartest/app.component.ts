@@ -23,7 +23,7 @@ export class CarComponent implements OnInit {
 }
 
 @Component({
-  selector: 'app.root',
+  selector: 'app-root',
   template: `
   <car name="Ford GT"></car>
   <car name="Corvette ZO6"></car>
