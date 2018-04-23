@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {FormGroup, FormControl} from "@angular/forms";
+import {FormGroup, FormControl, FormArray} from "@angular/forms";
 
 @Component({
   selector: 'app-root',
@@ -7,7 +7,12 @@ import {FormGroup, FormControl} from "@angular/forms";
     <form [formGroup]="formModel" (ngSubmit)="onSubmit()">
       <div>Username: <input type="text" formControlName="username"></div>
       <div>SSN:      <input type="text" formControlName="ssn"></div>
-
+      <ui formArrayName="pretty message">
+        <li *ngFor="let e of formModel.get('myPrettyField').controls; let i =index">
+          <input [formControlName]="i">
+        </li>
+        <button type="button" (click)="addField()">Add pretty field</button>
+      </ui>
       <div formGroupName="passwordsGroup">
         <div>Password:        <input type="password" formControlName="password"></div>
         <div>Confirm password: <input type="password" formControlName="pconfirm"></div>
@@ -23,6 +28,7 @@ export class AppComponent {
     this.formModel = new FormGroup({
       username: new FormControl(''),
       ssn: new FormControl(''),
+      myPrettyField: new FormArray([new FormControl()]),
       passwordsGroup: new FormGroup({
         password: new FormControl(''),
         pconfirm: new FormControl('')
@@ -33,4 +39,9 @@ export class AppComponent {
   onSubmit() {
     console.log(this.formModel.value);
   }
+
+  addField() {
+    this.formModel.get('myPrettyField').push(new FormControl());
+  }
+
 }
